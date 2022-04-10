@@ -3,7 +3,9 @@ package com.pucminas.easyfarma.domain.enums;
 public enum TipoPessoa {
 
     PACIENTE(1, "permitido participar dos procedimentos"),
-    FUNCIONARIO(2, "permitido realizar acoes no sistema");
+    FUNCIONARIO(2, "permitido realizar acoes no sistema"),
+    MEDICO(3, "profissional da saude"),
+    ENFERMEIRO(4, "profissional da saude");
 
     private int cod;
     private String descricao;
