@@ -1,24 +1,51 @@
 package com.pucminas.easyfarma.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
+import com.pucminas.easyfarma.domain.Pessoa;
+import com.pucminas.easyfarma.service.PessoaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.net.URI;
+import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping(value = "/pessoa")
 public class PessoaController {
+	
+	@Autowired
+	PessoaService service;
 
-	@GetMapping("/hello")
-	public ModelAndView hello() {
-		ModelAndView modelAndView = new ModelAndView("hello"); // Arquivo HTML na pasta templates
-		modelAndView.addObject("nome", "Paulo");
-		return modelAndView;
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id) {
+		Pessoa obj = service.find(id);
+		return ResponseEntity.ok().body(obj);
 	}
 
-	@GetMapping("/hello-model")
-	public String hello(Model model) {
-		model.addAttribute("nome", "Diego");
-		return "hello"; // Arquivo HTML na pasta templates
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ResponseEntity<?> findAll() {
+		List<Pessoa> obj = service.findAll();
+		return ResponseEntity.ok().body(obj);
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<?> insert(@RequestBody Pessoa obj) {
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Pessoa obj, @PathVariable Integer id) {
+		obj.setId(id);
+		service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }
