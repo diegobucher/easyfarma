@@ -1,4 +1,4 @@
-package com.pucminas.easyfarma;
+package com.pucminas.easyfarma.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
