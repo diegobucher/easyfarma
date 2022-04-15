@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS pessoa (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     data_nascimento DATE NOT NULL,
-    tipo_pessoa INT NOT NULL,
+    tipo_pessoa VARCHAR(50) NOT NULL,
     email VARCHAR(250) NOT NULL,
     numero VARCHAR(250) NOT NULL,
     endereco VARCHAR(250) NOT NULL

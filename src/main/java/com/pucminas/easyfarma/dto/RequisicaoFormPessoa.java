@@ -1,68 +1,19 @@
-package com.pucminas.easyfarma.domain;
+package com.pucminas.easyfarma.dto;
 
+import com.pucminas.easyfarma.domain.Pessoa;
 import com.pucminas.easyfarma.domain.enums.TipoPessoa;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
-@Entity
-public class Pessoa implements Serializable {
+public class RequisicaoFormPessoa {
 
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String nome;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date data_nascimento;
-    @Enumerated(EnumType.STRING)
     private TipoPessoa tipoPessoa;
     private String email;
     private String numero;
     private String endereco;
-
-    public Pessoa() {
-
-    }
-
-    public Pessoa(Integer id, String nome, Date data_nascimento,
-                  TipoPessoa tipo_pessoa, String email, String numero, String endereco) {
-        this.id = id;
-        this.nome = nome;
-        this.data_nascimento = data_nascimento;
-        this.tipoPessoa = tipo_pessoa;
-        this.email = email;
-        this.numero = numero;
-        this.endereco = endereco;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Pessoa other = (Pessoa) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -84,8 +35,8 @@ public class Pessoa implements Serializable {
         return tipoPessoa;
     }
 
-    public void setTipoPessoa(TipoPessoa tipo_pessoa) {
-        this.tipoPessoa = tipo_pessoa;
+    public void setTipoPessoa(TipoPessoa tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
     }
 
     public String getEmail() {
@@ -112,11 +63,31 @@ public class Pessoa implements Serializable {
         this.endereco = endereco;
     }
 
+    public Pessoa toPessoa() {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setNome(this.nome);
+        pessoa.setTipoPessoa(this.tipoPessoa);
+        pessoa.setEmail(this.email);
+        pessoa.setNumero(this.numero);
+        pessoa.setEndereco(this.endereco);
+        pessoa.setData_nascimento(this.data_nascimento);
+
+        return pessoa;
+    }
+
+    public void fromPessoa(Pessoa pessoa) {
+        this.nome = pessoa.getNome();
+        this.tipoPessoa = pessoa.getTipoPessoa();
+        this.email = pessoa.getEmail();
+        this.numero = pessoa.getNumero();
+        this.endereco = pessoa.getEndereco();
+        this.data_nascimento = pessoa.getData_nascimento();
+    }
+
     @Override
     public String toString() {
-        return "Pessoa{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
+        return "RequisicaoFormPessoa{" +
+                "nome='" + nome + '\'' +
                 ", data_nascimento=" + data_nascimento +
                 ", tipoPessoa=" + tipoPessoa +
                 ", email='" + email + '\'' +
